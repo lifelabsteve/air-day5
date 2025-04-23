@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>트윗 목록</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .tweet {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+        .tweet-content {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .tweet-meta {
+            color: #777;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>트윗 목록</h1>
+    
+    {% if tweets %}
+        {% for tweet in tweets %}
+            <div class="tweet">
+                <p class="tweet-content">{{ tweet.payload }}</p>
+                <p class="tweet-meta">
+                    작성자: {{ tweet.user.username }} | 
+                    {{ tweet.created_at|date:"Y-m-d H:i" }} | 
+                    좋아요: {{ tweet.likes.count }}
+                </p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>표시할 트윗이 없습니다.</p>
+    {% endif %}
+</body>
+</html>
