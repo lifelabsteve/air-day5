@@ -16,11 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from tweets.views import tweet_list, TweetListAPIView, UserTweetListAPIView
+from tweets.views import (
+    TweetListCreateAPIView,
+    TweetRetrieveUpdateDestroyAPIView,
+    UserListAPIView,
+    UserRetrieveAPIView,
+    UserTweetListAPIView,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', tweet_list, name='tweet_list'),  # 메인 페이지에 트윗 목록 표시
-    path('api/v1/tweets/', TweetListAPIView.as_view(), name='api_tweet_list'),
-    path('api/v1/users/<int:user_id>/tweets/', UserTweetListAPIView.as_view(), name='api_user_tweet_list'),
+    path('api/v1/tweets/', TweetListCreateAPIView.as_view(), name='tweet-list-create'),
+    path('api/v1/tweets/<int:pk>/', TweetRetrieveUpdateDestroyAPIView.as_view(), name='tweet-detail'),
+    path('api/v1/users/', UserListAPIView.as_view(), name='user-list'),
+    path('api/v1/users/<int:pk>/', UserRetrieveAPIView.as_view(), name='user-detail'),
+    path('api/v1/users/<int:pk>/tweets/', UserTweetListAPIView.as_view(), name='user-tweet-list'),
 ]
