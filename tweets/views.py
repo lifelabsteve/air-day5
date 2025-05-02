@@ -11,6 +11,7 @@ from .serializers import (
 )
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
+from .authentication import UsernameAuthentication
 
 def tweet_list(request):
     tweets = Tweet.objects.all().order_by('-created_at')
@@ -25,7 +26,7 @@ class TweetListAPIView(APIView):
 class TweetListCreateAPIView(generics.ListCreateAPIView):
     queryset = Tweet.objects.all()
     serializer_class = TweetSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [UsernameAuthentication]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -33,7 +34,7 @@ class TweetListCreateAPIView(generics.ListCreateAPIView):
 class TweetRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Tweet.objects.all()
     serializer_class = TweetSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [UsernameAuthentication]
 
 class UserListAPIView(generics.ListAPIView):
     queryset = User.objects.all()

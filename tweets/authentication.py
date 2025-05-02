@@ -7,10 +7,13 @@ class UsernameAuthentication(BaseAuthentication):
         username = request.headers.get('X-USERNAME')
         
         if not username:
-            return None
+            return None  # 인증 실패 시 None 반환
             
         try:
             user = User.objects.get(username=username)
             return (user, None)
         except User.DoesNotExist:
-            raise AuthenticationFailed('해당 사용자를 찾을 수 없습니다.') 
+            return None  # 인증 실패 시 None 반환
+
+    def authenticate_header(self, request):
+        return 'X-USERNAME'  # WWW-Authenticate 헤더 설정 
